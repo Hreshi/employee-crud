@@ -9,6 +9,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.List;
+import java.util.Map;
+
+import com.hrushi.employee.entity.Employee;
 
 @Configuration
 public class DatabaseConfig implements CommandLineRunner {
@@ -63,6 +67,20 @@ public class DatabaseConfig implements CommandLineRunner {
 			System.out.println("Worked\n");
 			int result = connection.queryForObject("select count(*) from EMPLOYEE_DETAILS;", Integer.class);
 			System.out.println("Result : " + result);
+
+			String updateQuery = read(updateQueryPath);
+			connection.update(updateQuery, 3, "Software Engineer", 1);
+			String readAllQuery = read(readAllQueryPath);
+			List<Map<String, Object>> list = connection.queryForList(readAllQuery);
+
+			for (Map<String, Object> emp : list) {
+				System.out.print((int)emp.get("ID") + " ");
+				System.out.print((String)emp.get("NAME")+ " ");
+				System.out.print(emp.get("DATE_OF_JOINING").toString()+ " ");
+				System.out.print((int)emp.get("YEARS_OF_EXPERIENCE")+ " ");
+				System.out.print((String)emp.get("DESIGNATION")+ " ");
+				System.out.println();
+			}
 		} 
 		catch (Exception e) {
 			System.out.println(e.toString());
