@@ -5,11 +5,10 @@ INSERT INTO EMPLOYEE_DETAILS (
 	YEARS_OF_EXPERIENCE,
 	DESIGNATION
 )
-
 VALUES (
-	%d,
-	%s,
-	%s,
-	%d,
-	%s
+	?,
+	?,
+	?,
+	?,
+	?
 );
