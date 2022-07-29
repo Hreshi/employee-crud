@@ -3,7 +3,11 @@ package com.hrushi.employee.service;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 import com.hrushi.employee.entity.Employee;
@@ -31,7 +35,16 @@ public class EmployeeService {
 
 	public Employee insertEmployee (Employee emp) {
 		String query = queries.getInsertQuery();
-		connection.update(query, emp.id, emp.name, emp.dateOfJoining.toString(), emp.yearsOfExperience, emp.designation);
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		int rows = connection.update((conn)->{
+			PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, emp.name);
+			stmt.setObject(2, emp.dateOfJoining);
+			stmt.setInt(3, emp.yearsOfExperience);
+			stmt.setString(4, emp.designation);
+			return stmt;
+		}, keyHolder);
+		emp.id = keyHolder.getKey().intValue();
 		return emp;
 	}
 

@@ -20,17 +20,18 @@ public class Test implements CommandLineRunner{
 
 	public void run(String[] args) {
 		Employee emp = new Employee();
-		emp.id = 1;
 		emp.name = "hrushi";
 		emp.dateOfJoining = LocalDate.now();
 		emp.yearsOfExperience = 0;
 		emp.designation = "Intern";
 
 		Employee e1 = service.insertEmployee(emp);
-		emp.id++;
 		Employee e2 = service.insertEmployee(emp);
+		Employee e3 = service.insertEmployee(emp);
+		Employee e4 = service.insertEmployee(emp);
+		Employee e5 = service.insertEmployee(emp);
 		emp.designation = "Founder and CTO MazeBlocks";
-		Employee e3 = service.updateEmployee(emp);
+		Employee e6 = service.updateEmployee(emp);
 
 		service.deleteEmployee(emp);
 		List<Employee> list = service.readAllEmployees();
